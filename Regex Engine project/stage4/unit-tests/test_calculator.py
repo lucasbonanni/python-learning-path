@@ -1,5 +1,6 @@
 # this code is in the beginning of the test_calculator.py file
-# Runs the unit test using python -m unittest test_calculator
+# Run the unit test using python -m unittest test_calculator
+# python -m unittest If we do not specify the name of the test file, only files which start with the "test" will be executed.
 import unittest
 import calculator
 
@@ -20,3 +21,6 @@ class TestCalculator(unittest.TestCase):  # a test case for the calculator.py mo
         # tests for the divide() function
         # ...
         self.assertRaises(ValueError, calculator.divide, 5, 0)
+
+if __name__ == "__main__": # This enables us to run it directly using python filename.py
+    unittest.main()
