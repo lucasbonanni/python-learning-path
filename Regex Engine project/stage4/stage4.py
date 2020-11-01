@@ -7,9 +7,11 @@ class Regexp:
         self.check_parts(regexp, text)
 
     def evaluate(self, regexp, text):
-        if (len(regexp) == 0) or (len(regexp) == 0 and len(text) == 0):
-             self.result = True
-        elif len(text) > 0 and ((regexp[0] == '.' and len(text[0]) == 1) or (regexp[0] == text[0])):
+        if len(regexp) == 0:
+            self.result = True
+        elif len(text) == 0:
+            self.result = False
+        elif (regexp[0] == text[0]) or (regexp[0] == '.'):
             self.evaluate(regexp[1:], text[1:])
         else:
             self.result = False
@@ -34,13 +36,12 @@ class Regexp:
         elif regexp.startswith('^') and regexp.endswith('$'):
             regexp = regexp.replace('^', '')
             regexp = regexp.replace('$', '')
-            print(regexp, text)
-            self.evaluate(regexp, text)
+            self.result = regexp == text
         else:
             for i in range(len(text)):
                 if not self.result:
                     part = text[i: i + len(regexp)]
                     self.evaluate(regexp, part)
 
-
-#print(Regexp(input()))
+if __name__ == "__main__": 
+    print(Regexp(input()))

@@ -4,14 +4,62 @@
 from stage4 import Regexp
 import unittest
 
+class TestStage(unittest.TestCase):
 
-class testStage(unittest.TestCase):
-
-    def case1(self):
+    def test_case1(self):
         code = '^app|apple'
-        print(code)
-        self.assertEqual(Regexp(code),'True')
+        exp = Regexp(code)
+        self.assertTrue(exp.result)
+    
+    def test_case2(self):
+        code = 'le$|apple'
+        exp = Regexp(code)
+        self.assertTrue(exp.result)
 
+    def test_case3(self):
+        code = '^a|apple'
+        exp = Regexp(code)
+        self.assertTrue(exp.result)
+    
+    def test_case4(self):
+        code = '.$|apple'
+        exp = Regexp(code)
+        self.assertTrue(exp.result)
+
+    def test_case5(self):
+        code = 'apple$|tasty apple'
+        exp = Regexp(code)
+        self.assertTrue(exp.result)
+
+    def test_case6(self): #repetido
+        code = 'apple$|tasty apple'
+        exp = Regexp(code)
+        self.assertTrue(exp.result)
+    
+    def test_case7(self):
+        code = '^apple$|apple'
+        exp = Regexp(code)
+        self.assertTrue(exp.result)
+    
+    def test_case8(self):
+        code = '^apple$|tasty apple'
+        exp = Regexp(code)
+        self.assertFalse(exp.result)
+    
+    def test_case9(self):
+        code = '^apple$|apple pie'
+        exp = Regexp(code)
+        self.assertFalse(exp.result)
+    
+    def test_case10(self):
+        code = 'app$|apple'
+        exp = Regexp(code)
+        self.assertFalse(exp.result)
+    
+    def test_case11(self):
+        code = '^le|apple'
+        exp = Regexp(code)
+        self.assertFalse(exp.result)
 
 if __name__ == "__main__": # This enables us to run it directly using python filename.py
     unittest.main()
