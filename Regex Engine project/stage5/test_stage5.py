@@ -3,6 +3,30 @@
 # python -m unittest If we do not specify the name of the test file, only files which start with the "test" will be executed.
 from stage5 import Regexp
 import unittest
+from inspect import currentframe, getframeinfo
+
+
+# def count_char_matches(text,starting_pos, final_letter):
+#     """
+
+#     """
+#     # print('text:' + text,'pos:' + str(starting_pos),'final_letter:' +final_letter)
+#     counter = 0
+#     for pos in range(starting_pos,len(text),1):
+#         if text[pos] != final_letter:
+#             print('test',text[pos],pos,len(text), 'color'[3])
+#             counter +=1
+#         else:
+#             break
+#     return counter
+
+# class Test_check_repetition_char(unittest.TestCase):
+#     def test_check_repetition_char(self):
+#         text = 'color'
+#         starting_pos = 4
+#         final_letter = 'r'
+#         count = count_char_matches(text,starting_pos,final_letter)
+#         self.assertEqual(0, count)
 
 class TestStage(unittest.TestCase):
 

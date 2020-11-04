@@ -48,3 +48,12 @@ Examples
     Input:  'col.*r|colr'        Output: True
     Input:  'col.*r|collar'      Output: True
     Input: 'col.*r$|colors'      Output: False
+
+    ? matches the preceding character zero times or once;
+    * matches the preceding character zero or more times;
+    + matches the preceding character once or more times.
+
+1. podría encontrar la posición del operador, buscar el caracter anterior guardarlo, buscar el segundo anterior y su posición, y el caracter siguiente al operador.
+2. Desde la posición del primer caracter (o) empiezo a contar en el string cuantos matches hasta el caracter final (r).
+3. y poner true o false en base a la cuenta y el operador.
+4. Remover la parte del string y que siga con las siguientes operaciones.

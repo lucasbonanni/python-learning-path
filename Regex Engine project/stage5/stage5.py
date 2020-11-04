@@ -4,7 +4,7 @@ class Regexp:
     def __init__(self, regexp):
         self.result = False
         regexp, text = regexp.split('|')
-        self.check_parts(regexp, text)
+        self.check_repetition_char(regexp, text)
 
     def evaluate(self, regexp, text):
         if len(regexp) == 0:
@@ -19,12 +19,61 @@ class Regexp:
     def __str__(self):
         return str(self.result)
 
+    def count_char_matches(self, text, starting_pos, final_letter):
+        """
+        it counts character matches
+        """
+        counter = 0
+        for pos in range(starting_pos, len(text), 1):
+            if text[pos] != final_letter:
+                counter += 1
+            else:
+                break
+        return counter
+
+    def check_repetition_char(self, regexp, text):
+        if len(text) == 0 and len(regexp) == 0:
+            self.result = True
+        if regexp.find('?') > -1:
+            pos = regexp.find('?')
+            final_letter = regexp[pos+1]
+            matches = self.count_char_matches(text, pos - 1, final_letter)
+            if matches == 0 or matches == 1:
+                exp = regexp[pos - 1:pos + 1]
+                t_exp = text[0:pos - 1] + text[pos + matches - 1:len(text)]
+                self.check_parts(regexp.replace(exp, ''), t_exp)
+            else:
+                self.result = False  # debería salir
+
+        if regexp.find('*') > -1:
+
+            pos = regexp.find('*')
+            final_letter = regexp[pos+1]
+            matches = self.count_char_matches(text, pos - 1, final_letter)
+            if matches >= 0 or matches == 1:
+                exp = regexp[pos - 1:pos + 1]
+                t_exp = text[0:pos - 1] + text[pos + matches - 1:len(text)]
+                self.check_parts(regexp.replace(exp, ''), t_exp)
+            else:
+                self.result = False  # exit
+            exp = regexp[pos - 1:pos + 1]
+            regexp.replace(exp, '')
+            text.replace(exp[0], '')
+        if regexp.find('+') > -1:
+            pos = regexp.find('+')
+            final_letter = regexp[pos+1]
+            matches = self.count_char_matches(text, pos - 1, final_letter)
+            if matches >= 0:
+                exp = regexp[pos - 1:pos + 1]
+                t_exp = text[0:pos - 1] + text[pos + matches - 1:len(text)]
+                self.check_parts(regexp.replace(exp, ''), t_exp)
+            else:
+                self.result = False  # exit
+
     def check_parts(self, regexp, text):
         """
         Takes a regexp and a text to evalueate
         """
-        if len(text) == 0 and len(regexp) == 0:
-            self.result = True
         if regexp.startswith('^') and not regexp.endswith('$'):
             regexp = regexp.replace('^', '')
             part = text[0: 0 + len(regexp)]
@@ -43,5 +92,6 @@ class Regexp:
                     part = text[i: i + len(regexp)]
                     self.evaluate(regexp, part)
 
-if __name__ == "__main__": 
+
+if __name__ == "__main__":
     print(Regexp(input()))
