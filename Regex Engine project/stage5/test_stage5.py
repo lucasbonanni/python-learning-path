@@ -84,6 +84,37 @@ class TestStage(unittest.TestCase):
         code = 'col.*r$|colors'
         exp = Regexp(code)
         self.assertFalse(exp.result)
+    
+    def test_case13(self):
+        code = 'colou+r|color'
+        exp = Regexp(code)
+        self.assertFalse(exp.result)
+
+    def test_case12(self):
+        code = 'a|a'
+        exp = Regexp(code)
+        self.assertTrue(exp.result)
+    
+    def test_case14(self):
+        code = '.*|aaa'
+        exp = Regexp(code)
+        self.assertTrue(exp.result)
+    
+    def test_case15(self):
+        code = '.+|aaa'
+        exp = Regexp(code)
+        self.assertTrue(exp.result)
+
+    def test_case16(self):
+        code = '.?|aaa'
+        exp = Regexp(code)
+        self.assertTrue(exp.result)
+    
+    def test_case17(self):
+        code = 'no+$|noooooooope'
+        exp = Regexp(code)
+        self.assertFalse(exp.result)
+
 
 if __name__ == "__main__": # This enables us to run it directly using python filename.py
     unittest.main()

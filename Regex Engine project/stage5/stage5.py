@@ -36,39 +36,50 @@ class Regexp:
             self.result = True
         if regexp.find('?') > -1:
             pos = regexp.find('?')
-            final_letter = regexp[pos+1]
-            matches = self.count_char_matches(text, pos - 1, final_letter)
-            if matches == 0 or matches == 1:
-                exp = regexp[pos - 1:pos + 1]
-                t_exp = text[0:pos - 1] + text[pos + matches - 1:len(text)]
-                self.check_parts(regexp.replace(exp, ''), t_exp)
+            if len(regexp) > 2:
+                final_letter = regexp[pos+1]
+                matches = self.count_char_matches(text, pos - 1, final_letter)
+                if matches == 0 or matches == 1:
+                    exp = regexp[pos - 1:pos + 1]
+                    t_exp = text[0:pos - 1] + text[pos + matches - 1:len(text)]
+                    self.check_parts(regexp.replace(exp, ''), t_exp)
+                else:
+                    self.result = False  # debería salir
             else:
-                self.result = False  # debería salir
-
+                self.check_parts(regexp.replace('?',''),text)
         if regexp.find('*') > -1:
 
             pos = regexp.find('*')
-            final_letter = regexp[pos+1]
-            matches = self.count_char_matches(text, pos - 1, final_letter)
-            if matches >= 0 or matches == 1:
-                exp = regexp[pos - 1:pos + 1]
-                t_exp = text[0:pos - 1] + text[pos + matches - 1:len(text)]
-                self.check_parts(regexp.replace(exp, ''), t_exp)
+            if len(regexp) > 2:
+                final_letter = regexp[pos+1]
+                matches = self.count_char_matches(text, pos - 1, final_letter)
+                if matches >= 0 or matches == 1:
+                    exp = regexp[pos - 1:pos + 1]
+                    t_exp = text[0:pos - 1] + text[pos + matches - 1:len(text)]
+                    self.check_parts(regexp.replace(exp, ''), t_exp)
+                else:
+                    self.result = False  # exit
             else:
-                self.result = False  # exit
+                self.check_parts(regexp.replace('*',''),text)
             exp = regexp[pos - 1:pos + 1]
             regexp.replace(exp, '')
             text.replace(exp[0], '')
         if regexp.find('+') > -1:
             pos = regexp.find('+')
-            final_letter = regexp[pos+1]
-            matches = self.count_char_matches(text, pos - 1, final_letter)
-            if matches >= 0:
-                exp = regexp[pos - 1:pos + 1]
-                t_exp = text[0:pos - 1] + text[pos + matches - 1:len(text)]
-                self.check_parts(regexp.replace(exp, ''), t_exp)
+            if len(regexp) > 2:
+                final_letter = regexp[pos+1]
+                matches = self.count_char_matches(text, pos - 1, final_letter)
+                if matches >= 1:
+                    exp = regexp[pos - 1:pos + 1]
+                    t_exp = text[0:pos - 1] + text[pos + matches - 1:len(text)]
+                    self.check_parts(regexp.replace(exp, ''), t_exp)
+                    print(matches, regexp, text)
+                else:
+                    self.result = False  # exit
             else:
-                self.result = False  # exit
+                self.check_parts(regexp.replace('+',''),text)
+        else:
+            self.check_parts(regexp,text)
 
     def check_parts(self, regexp, text):
         """
