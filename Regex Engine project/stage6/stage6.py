@@ -27,11 +27,13 @@ def check_str(regex, string):
         return True
     if regex == '$' and not string:
         return True
-    if regex[1:2] == '?':
+    if regex[0:2] == r'\?' or regex[0:2] == r'\+' or regex[0:2] == r'\.' or regex[0:2] == r'\*' or regex[0:2] == r'\\':
+        return check_str(regex[1:],string)
+    if regex[1:2] == '?' and regex[0:2] != r'\?':
         return check_question(regex, string)
-    if regex[1:2] == '*':
+    if regex[1:2] == '*' and regex[0:2] != r'\*':
         return check_star(regex, string)
-    if regex[1:2] == '+':
+    if regex[1:2] == '+' and regex[0:2] != r'\+':
         return check_plus(regex, string)
     return check_char(regex[0], string[0:1]) and check_str(regex[1:], string[1:])
 
